@@ -21,8 +21,8 @@ jobs:
     - name: Deploy to Azure Container Instances
       uses: azure/aci-deploy@v1
       with:
-        resource-group: <nombre-del-grupo-de-recursos>
-        dns-name-label: <nombre-unico-dns>  # Debe ser único
-        location: <ubicación>  # Por ejemplo, eastus
+        resource-group: sideprojects
+        dns-name-label: redisd-e82e519d009  # Debe ser único
+        location: East US 2  # Por ejemplo, eastus
         environment: docker-compose
-        compose-file: './redis-compose.yml'
+        compose-file: './redis-compose.yaml'

@@ -1,0 +1,11 @@
+version: '4.4'
+services:
+  redis:
+    image: redis
+    container_name: redis
+    command: redis-server --requirepass s2vhMK1yubKRubA1CfpFY0qHNvs7p2xE --appendonly yes --tcp-keepalive 300 --timeout 0
+    ports:
+      - "14612:6379"
+    restart: unless-stopped
+    
+      

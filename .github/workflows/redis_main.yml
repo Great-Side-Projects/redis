@@ -29,7 +29,7 @@ jobs:
     #    docker-compose build
     #    docker-compose push    
     - run: |
-        docker compose -f redis-compose.yaml build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
+        docker compose -f redis-compose.yaml build ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
         docker compose -f redis-compose.yaml push ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
 
 

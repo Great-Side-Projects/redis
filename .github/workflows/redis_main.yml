@@ -17,12 +17,28 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: 'Build and push image to ACR'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    #- run: |
+    #    docker-compose build
+    #    docker-compose push    
+    - run: |
+        docker compose -f redis-compose.yaml build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
+        docker compose -f redis-compose.yaml push ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
+
 
     - name: Deploy to Azure Container Instances
       uses: azure/aci-deploy@v1
       with:
         resource-group: sideprojects
-        dns-name-label: redisd-e82e519d009  # Debe ser único
+        dns-name-label: redis  # Debe ser único
         location: East US 2  # Por ejemplo, eastus
-        environment: docker-compose
-        compose-file: './redis-compose.yaml'
+        #environment: docker-compose
+        #compose-file: './redis-compose.yaml'
+        images: ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
